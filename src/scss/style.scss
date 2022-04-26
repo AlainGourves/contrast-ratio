@@ -1,0 +1,215 @@
+@import 'mixins';
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+    --bg-clr: #fff;
+    --samp-bg: hsl(180deg, 50%,50%);
+    --samp-clr: #eeff00;
+}
+  
+html {
+  font-size: 16px;
+}
+
+body {
+  @include grid-center;
+  min-height: 100vh;
+  background-color: var(--bg-clr);
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+canvas {
+  margin: auto;
+}
+
+@media screen and (min-width: 600px) {
+  body {
+      grid-template-areas:
+                          "sample sample"
+                          "main inputs";
+
+      & main {
+          grid-area: main;
+      }
+      
+      & #sample {
+          grid-area: sample;
+      }
+      
+      & #inputs {
+          grid-area: inputs;
+          grid-template-columns: 1fr;
+          grid-auto-flow: row;
+      }
+
+      & #score {
+          order: -1;
+      }
+  }
+
+}
+
+#score {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  place-content: center;
+
+  & p {
+      position: relative;
+      padding: .5em;
+
+      &::after {
+          padding-left: .25em;
+      }
+  }
+}
+
+#sample {
+  background-color: var(--samp-bg);
+  color: var(--samp-clr);
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: .25rem;
+  transition: background-color .25s linear,
+      color .25s linear;
+}
+
+#inputs {
+  display: grid;
+  grid-template-columns: repeat(2, 6rem) 1fr;
+
+  & div {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      gap: .25rem;
+      position: relative;
+  }
+
+  & label {
+      font-size: .8rem;
+  }
+
+  & svg{
+      user-select: none;
+      width: 100%;
+      height: 100%;
+  }
+}
+
+#score {
+
+  & span:last-of-type {
+      font-size: 1.5rem;
+
+      &::after {
+          margin-left: .25rem;
+      }
+  }
+
+  & .cr_ok {
+      font-weight: bolder;
+      color: green;
+
+      &::after {
+          content: '👍';
+      }
+  }
+
+  & .cr_bad {
+      font-weight: bold;
+      color: red;
+
+      &::after {
+          content: '👎';
+      }
+  }
+}
+
+input[type="color"] {
+  box-sizing: border-box;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  margin-top: .5rem;
+  border-radius: 50%;
+  border-width: 2px;
+  border-style: solid;
+  cursor: pointer;
+
+  &::-webkit-color-swatch-wrapper {
+      padding: 0;
+  }
+
+  &::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+  }
+
+  &::-moz-color-swatch {
+      border: none;
+      border-radius: 50%;
+  }
+}
+
+.btn-clipboard {
+  align-self: flex-end;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0;
+  border: none;
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  // color: deepskyblue;
+  background-color: transparent;
+  user-select: none;
+  cursor: pointer;
+  transition: transform 0.25s linear;
+
+  &:hover,
+  &:focus,
+  &:active {
+    transform: scale(1.2);
+  }
+}
+
+// Notifications
+.notif {
+  $h: 3em;
+  min-width: 15vw;
+  min-height: $h;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  @include grid-center;
+  transform: translateX(-50%) translateY($h);
+  transition-property: transform;
+  transition-duration: .125s;
+  transition-delay: 2s;
+  transition-timing-function: cubic-bezier(0.37, 0.21, 0.72, 1.35);
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  border-top-left-radius: .25em;
+  border-top-right-radius: .25em;
+  padding: 0 2.5em;
+
+  &.visible {
+      transform: translateX(-50%) translateY(0);
+      transition-duration: .5s;
+      transition-delay: 0s;
+  }
+}
