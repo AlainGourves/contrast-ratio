@@ -19,6 +19,7 @@ const sketch = (s) => {
 	let result = [];
 	const reso = 10; // "résolution"
 	let crScore;
+	let crLevel;
 	let colorGradient; // p5.createGraphics -> stocke l'image du dégradé de la couleur de fond
 	let legend;
 	let pattern;
@@ -114,7 +115,8 @@ const sketch = (s) => {
 		document.documentElement.style.setProperty('--samp-clr', `rgb(${txtColor[0]}, ${txtColor[1]}, ${txtColor[2]})`);
 		s.colorMode(s.RGB);
 
-		crScore = document.querySelector('#score span:last-of-type');
+		crScore = document.querySelector('#score span:nth-of-type(2)');
+		crLevel = document.querySelector('#score span:last-of-type');
 
 		s.noLoop();
 
@@ -259,9 +261,11 @@ const sketch = (s) => {
 		if (myCr >= crMin) {
 			crScore.classList.remove('cr_bad');
 			crScore.classList.add('cr_ok');
+			crLevel.innerHTML = (myCr >= 4.5) ? 'AAA Level' : 'AA Level'; 
 		} else {
 			crScore.classList.remove('cr_ok');
 			crScore.classList.add('cr_bad');
+			crLevel.innerHTML = ''; 
 		}
 
 		// Array pour stocker les points calculés par lerp
