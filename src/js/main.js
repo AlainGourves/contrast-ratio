@@ -2,6 +2,7 @@ const sketch = (s) => {
 	const crMin = 3; // Minimum constrast ratio
 
 	const ml = 60; // margin left
+	const mr = 20; // margin right
 	const mt = 30; //margin bottom
 	const mb = 36; //margin bottom
 	const sc = 2.6; // scale factor
@@ -11,7 +12,6 @@ const sketch = (s) => {
 	let bgSat = 50;
 	let bgLig = 50;
 	let img;
-	let bgImg;
 	let cnv;
 	let txtColor = []; //color foreground
 	let txtLumi; // luminance de txtColor
@@ -31,7 +31,15 @@ const sketch = (s) => {
 	s.setup = () => {
 		w = 100 * sc;
 		h = 100 * sc;
-		cnv = s.createCanvas(w + ml + 20, h + mt + mb);
+
+		document.documentElement.style.setProperty('--cnv-ml', `${ml}px`);
+		document.documentElement.style.setProperty('--cnv-mt', `${mt}px`);
+		document.documentElement.style.setProperty('--cnv-w', `${w}px`);
+		document.documentElement.style.setProperty('--cnv-w-tot', `${w + ml + mr}px`);
+		document.documentElement.style.setProperty('--cnv-h-tot', `${h + mt + mb}px`);
+
+		cnv = s.createCanvas(w + ml + mr, h + mt + mb);
+		cnv.parent(document.querySelector('#canvas'));
 
 		colorPickerBg = document.querySelector('#colorBg');
 		colorPickerTxt = document.querySelector('#colorTxt');
@@ -61,7 +69,7 @@ const sketch = (s) => {
 		theMask = s.createGraphics(100 * sc, 100 * sc);
 
 		// Légende
-		legend = s.createGraphics(w + ml + 20, h + mt + mb)
+		legend = s.createGraphics(w + ml + mr, h + mt + mb)
 		legend.push();
 		legend.translate(ml, mt);
 		legend.textSize(10);
