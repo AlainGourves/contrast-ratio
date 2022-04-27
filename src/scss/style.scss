@@ -22,7 +22,7 @@ body {
   @include grid-center;
   min-height: 100vh;
   background-color: var(--bg-clr);
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 #canvas {
@@ -197,27 +197,29 @@ input[type="color"] {
 
 // Notifications
 .notif {
-  $h: 3em;
-  min-width: 15vw;
+  $h: 4em;
+  width: clamp(50vw, 36ch, calc(100% - 4rem));
   min-height: $h;
   position: fixed;
+  @include grid-center;
   bottom: 0;
   left: 50%;
-  @include grid-center;
   transform: translateX(-50%) translateY($h);
-  transition-property: transform;
+  transition-property: transform, opacity;
   transition-duration: .125s;
   transition-delay: 2s;
   transition-timing-function: cubic-bezier(0.37, 0.21, 0.72, 1.35);
-  background-color: rgba(0, 0, 0, .5);
+  background-color: rgba(0, 0, 0, .75);
   color: #fff;
   border-top-left-radius: .25em;
   border-top-right-radius: .25em;
   padding: 0 2.5em;
+  opacity: 0;
 
   &.visible {
+    opacity: 1;
     transform: translateX(-50%) translateY(0);
-    transition-duration: .5s;
+    transition-duration: .25s;
     transition-delay: 0s;
   }
 }

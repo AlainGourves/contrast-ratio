@@ -129,11 +129,24 @@ const sketch = (s) => {
 			if (el && el !== ev.currentTarget) {
 				const val = el.closest('div').querySelector('input[type="color"]').value;
 				if (navigator?.clipboard?.writeText) {
+					// NB: on IOS, the API is limited to secured context (i.E https)
+					// -> https://webkit.org/blog/10855/async-clipboard-api/
 					await navigator.clipboard.writeText(val)
 						.then(() => s.notif("Hex value copied to clipboard."))
 						.catch((err) => s.notif(`Error while copying to clipboard : ${err}`))
 				} else {
-					console.log("go fuck yourself!")
+					let i = document.createElement('input');
+					i.style.position = 'absolute';
+					i.style.right = '100vh';
+					i.style.bottom = '0';
+					i.style.opacity= '0';
+					i.value = val;
+					document.body.appendChild(i);
+					i.focus();
+					i.setSelectionRange(0, i.value.length);
+					document.execCommand('Copy');
+					i.remove();
+					s.notif("Hex value copied to clipboard.")
 				}
 			}
 		}, false);
