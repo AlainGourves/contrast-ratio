@@ -1,4 +1,4 @@
-![Screen capture](https://raw.githubusercontent.com/AlainGourves/contrast-ratio/main/contrast-ratio-checker.png)
+![Screen capture](https://raw.githubusercontent.com/AlainGourves/contrast-ratio/blob/main/contrast-ratio-checker.png)
 
 # Contrast ratio checker
 
