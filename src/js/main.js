@@ -96,8 +96,16 @@ const sketch = (s) => {
 		legend.pop();
 
 		// Création de l'image de fond en fonction de la couleur 
-		const clr = s.color(`hsl(${bgHue}, ${bgSat}%, ${bgLig}%)`);
-		const clrHex = s.getHex(clr.levels.slice(0, 3));
+		let clrHex = localStorage.getItem('bgColor');
+		if (clrHex && /^\#[0-9a-f]{6}$/i.test(clrHex)) {
+			let clr = s.color(clrHex);
+			bgHue = Math.round(s.hue(clr));
+			bgSat = Math.round(s.saturation(clr));
+			bgLig = Math.round(s.lightness(clr))
+		} else {
+			let clr = s.color(`hsl(${bgHue}, ${bgSat}%, ${bgLig}%)`);
+			clrHex = s.getHex(clr.levels.slice(0, 3));
+		}
 		document.documentElement.style.setProperty('--samp-bg', `${clrHex}`);
 		colorPickerBg.value = clrHex;
 
@@ -107,9 +115,18 @@ const sketch = (s) => {
 		cnv.mousePressed(s.updateBgColor);
 
 		colorPickerBg.addEventListener('input', s.changeBgColor);
+		colorPickerBg.addEventListener('change', ev => {
+			// Stocke la valeur en localStorage
+			localStorage.setItem('bgColor', ev.target.value);
+		});
 
-		colorPickerTxt.value = '#eeff00';
+		let clr = localStorage.getItem('txtColor');
+		colorPickerTxt.value = (clr && /^\#[0-9a-f]{6}$/i.test(clr)) ? clr : '#eeff00';
 		colorPickerTxt.addEventListener('input', s.changeTxtColor);
+		colorPickerTxt.addEventListener('change', ev => {
+			// Stocke la valeur en localStorage
+			localStorage.setItem('txtColor', ev.target.value);
+		});
 
 		txtColor = s.color(colorPickerTxt.value).levels.slice(0, 3);
 		document.documentElement.style.setProperty('--samp-clr', `rgb(${txtColor[0]}, ${txtColor[1]}, ${txtColor[2]})`);
@@ -118,6 +135,8 @@ const sketch = (s) => {
 		crScore = document.querySelector('#score span:nth-of-type(2)');
 		crLevel = document.querySelector('#score span:last-of-type');
 
+		// pas de loop, l'image n'est créée qu'au besoin par des appels à redraw()
+		// et draw() n'est appelé qu'une fois, au début
 		s.noLoop();
 
 		const inputs = document.querySelector('#inputs');
@@ -141,7 +160,7 @@ const sketch = (s) => {
 					i.style.position = 'absolute';
 					i.style.right = '100vh';
 					i.style.bottom = '0';
-					i.style.opacity= '0';
+					i.style.opacity = '0';
 					i.value = val;
 					document.body.appendChild(i);
 					i.focus();
@@ -261,11 +280,11 @@ const sketch = (s) => {
 		if (myCr >= crMin) {
 			crScore.classList.remove('cr_bad');
 			crScore.classList.add('cr_ok');
-			crLevel.innerHTML = (myCr >= 4.5) ? 'AAA Level' : 'AA Level'; 
+			crLevel.innerHTML = (myCr >= 4.5) ? 'AAA Level' : 'AA Level';
 		} else {
 			crScore.classList.remove('cr_ok');
 			crScore.classList.add('cr_bad');
-			crLevel.innerHTML = ''; 
+			crLevel.innerHTML = '';
 		}
 
 		// Array pour stocker les points calculés par lerp
@@ -569,8 +588,8 @@ const sketch = (s) => {
 	s.notif = (message) => {
 		notif.innerText = message;
 		notif.classList.add('visible');
-		notif.addEventListener('transitionend', s.notifDown, {once: true}, false)
-		notif.addEventListener('transitioncancel', s.notifDown, {once: true}, false)
+		notif.addEventListener('transitionend', s.notifDown, { once: true }, false)
+		notif.addEventListener('transitioncancel', s.notifDown, { once: true }, false)
 	}
 
 	s.notifDown = () => {
