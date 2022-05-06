@@ -1,0 +1,110 @@
+.gui-switch {
+    // ----------------------------- Sizes 
+    --thumb-size: 1rem;
+
+    --track-size: calc(var(--thumb-size) * 2);
+    --track-padding: 2px;
+
+    --highlight-size: calc(var(--track-padding) / 2);
+
+    // ----------------------------- Colors 
+    --switch-h: 209;
+    --switch-s: 60%;
+    --switch-l: 50%;
+
+    --thumb: hsl(0, 0%, 100%);
+    --thumb-highlight: hsla(0, 100%, 100%, .5);
+    
+    --track-active: hsl(var(--switch-h), var(--switch-s), var(--switch-l));
+    --track-inactive: hsl(var(--switch-h), var(--switch-l), 80%);
+
+    --thumb-color: var(--thumb);
+    --thumb-color-highlight: var(--thumb-highlight);
+    --track-color-active: var(--track-active);
+    --track-color-inactive: var(--track-inactive);
+
+    @media (prefers-color-scheme: dark) {
+        --thumb: hsl(0, 0%, 10%);
+        --thumb-highlight: hsla(0, 0%, 100%, .25);
+
+        --track-active: hsl(var(--switch-h), var(--switch-s), calc(var(--switch-l) - 15%));
+        --track-inactive: hsl(80, 0%, 35%);
+    }
+    
+    // ----------------------------- Animation
+    --switch-anim-dur: .2s;
+    --switch-anim-fn: ease-out;
+
+    // ----------------------------- Layout 
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .5rem; // distance between Swith & Label
+    margin-left: .5rem;
+
+    & > [type="checkbox"] {
+        --thumb-position: 0%;
+
+        appearance: none;
+        inline-size: var(--track-size); // horizontal or vertical size of an element's block, depending on its writing mode (horizontal => width)
+        block-size: var(--thumb-size); // (horizontal writing mode => height)
+        padding: var(--track-padding);
+
+        border: none;
+        border-radius: var(--track-size);
+        outline-offset: 5px;
+        box-sizing: content-box;
+
+        background-color: var(--track-color-inactive);
+        box-shadow: 0 0 calc(var(--track-padding) / 2) rgba(0,0,0,.125) inset;
+
+        flex-shrink: 0; // flex item can't shrink, space is preserved for the switch
+        display: grid;
+        align-items: center;
+        grid: [track] 1fr / [track] 1fr;
+
+        transition: background-color var(--switch-anim-dur) linear;
+
+        &::before {
+            // Thumb
+            content: '';
+            grid-area: track;
+            inline-size: var(--thumb-size);
+            block-size: var(--thumb-size);
+
+            background-color: var(--thumb-color);
+            border-radius: 50%;
+
+            box-shadow: 0 0 0 var(--highlight-size) var(--thumb-color-highlight);
+            transform: translateX(var(--thumb-position));
+            transition: 
+                transform var(--switch-anim-dur) var(--switch-anim-fn),
+                box-shadow var(--switch-anim-dur) var(--switch-anim-fn);
+        }
+
+        &:checked {
+            --thumb-position: calc(var(--track-size) - 100%);
+            background-color: var(--track-color-active);
+        }
+
+        &:not(:disabled):hover::before {
+            --highlight-size: .3rem;
+            cursor: pointer;
+        }
+    }
+
+    // ----------------------------- Interactions
+    user-select: none; // label's text is not selectable
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto; // prevents smooth scrolling
+    }
+
+    .gui-switch{
+        --switch-anim-dur: 0; // no transition
+    }    
+}

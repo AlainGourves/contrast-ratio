@@ -1,5 +1,5 @@
 const sketch = (s) => {
-	const crMin = 3; // Minimum constrast ratio
+	let crMin = 3; // Minimum constrast ratio
 
 	const ml = 60; // margin left
 	const mr = 20; // margin right
@@ -27,6 +27,7 @@ const sketch = (s) => {
 	let masked;
 	let colorPickerBg;
 	let colorPickerTxt;
+	let sample;
 	const notif = document.querySelector('.notif');
 
 	s.setup = () => {
@@ -132,8 +133,23 @@ const sketch = (s) => {
 		document.documentElement.style.setProperty('--samp-clr', `rgb(${txtColor[0]}, ${txtColor[1]}, ${txtColor[2]})`);
 		s.colorMode(s.RGB);
 
-		crScore = document.querySelector('#score span:nth-of-type(2)');
-		crLevel = document.querySelector('#score span:last-of-type');
+		sample = document.querySelector('#sample span');
+		const switchSize = document.querySelector('#switch-size');
+		switchSize.addEventListener('change', ev => {
+			if ((ev.target.checked)) {
+				sample.classList.remove('normal');
+				sample.classList.add('large');
+				crMin = 3;
+			} else {
+				sample.classList.add('normal');
+				sample.classList.remove('large');
+				crMin = 4.5;
+			}
+			s.redraw();
+		});
+
+		crScore = document.querySelector('#score > span:nth-of-type(2)');
+		crLevel = document.querySelector('#score > span:last-of-type');
 
 		// pas de loop, l'image n'est créée qu'au besoin par des appels à redraw()
 		// et draw() n'est appelé qu'une fois, au début
@@ -276,11 +292,11 @@ const sketch = (s) => {
 		const bc = s.color(`hsl(${bgHue}, ${bgSat}%, ${bgLig}%)`);
 		const lumiBg = s.colorLuminance([s.red(bc), s.green(bc), s.blue(bc)]);
 		const myCr = s.calcContrastRatio(lumiBg, txtLumi);
-		crScore.innerHTML = `${myCr.toFixed(2)}`;
+		crScore.querySelector('span').innerHTML = `${myCr.toFixed(2)}`;
 		if (myCr >= crMin) {
 			crScore.classList.remove('cr_bad');
 			crScore.classList.add('cr_ok');
-			crLevel.innerHTML = (myCr >= 4.5) ? 'AAA Level' : 'AA Level';
+			crLevel.innerHTML = ((crMin === 3 && myCr >= 4.5) || (crMin === 4.5 && myCr >= 7)) ? 'AAA Level' : 'AA Level';
 		} else {
 			crScore.classList.remove('cr_ok');
 			crScore.classList.add('cr_bad');

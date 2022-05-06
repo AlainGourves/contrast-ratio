@@ -11,7 +11,16 @@
 </head>
 
 <body>
-	<div id="sample">The quick brown fox</div>
+	<div id="sample">
+		<span class="large">The quick brown fox</span>
+		<div class="size-matter">
+			Normal text
+			<label for="switch" class="gui-switch">
+				<input type="checkbox" role="switch" id="switch-size" checked>
+				Large text
+			</label>
+		</div>
+	</div>
 	<div id="inputs">
 		<div>
 			<button class="btn-clipboard" title="Copy HEX value to clipboard">
@@ -33,7 +42,7 @@
 		</div>
 		<div id="score">
 			<span>WCAG Score</span>
-			<span class="cr_bad"></span>
+			<span class="cr_bad"><span></span>:1</span>
 			<span></span>
 		</div>
 	</div>
