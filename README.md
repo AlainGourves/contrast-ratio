@@ -28,4 +28,4 @@ npm start
 ## Libraries
 
 - [p5.js](https://p5js.org/) for canvas manipulation.
-- [Color Blindness Emulation]() for the SVG filters.
+- [Color Blindness Emulation](https://github.com/hail2u/color-blindness-emulation) for the SVG filters.
