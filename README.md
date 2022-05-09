@@ -2,14 +2,15 @@
 
 # Contrast ratio checker
 
-Given a background and a text colors, this computes their contrast ratio according to [WCAG 2.0 formula](https://www.w3.org/TR/WCAG20/#contrast-ratiodef), ranging from 1:1 (no contrast, e.g., black text on a black background) to 21:1 (maximum contrast, e.g., black text on a white background).
+Given a background and a text colors, this computes their contrast ratio according to [WCAG 2.0 formula](https://www.w3.org/TR/WCAG20/#contrast-ratiodef), ranging from 1:1 (no contrast, e.g., a color compared to itself) to 21:1 (maximum contrast, obtainable by comparing black and white).
 
-On the canvas, the stripped zone overlays the colors where the contrast ratio is inferior to 3.
+On the canvas, the stripped zone overlays the colors where the contrast ratio is inferior to the recommended minimum.
 
 The white little circle marks the currently selected background color.
 
 Colors can be changed either via their respective color picker, or, for the background color, by clicking on the color chart.
 
+Dropdown menu let you select different color blindness to simulate on the sample zone.
 
 ## Installation
 
@@ -26,4 +27,5 @@ npm start
 
 ## Libraries
 
-Uses [p5.js](https://p5js.org/) for canvas manipulation.
+- [p5.js](https://p5js.org/) for canvas manipulation.
+- [Color Blindness Emulation]() for the SVG filters.

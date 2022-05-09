@@ -27,7 +27,7 @@ const sketch = (s) => {
 	let masked;
 	let colorPickerBg;
 	let colorPickerTxt;
-	let sample;
+	let sampleDiv;
 	const notif = document.querySelector('.notif');
 
 	s.setup = () => {
@@ -133,16 +133,16 @@ const sketch = (s) => {
 		document.documentElement.style.setProperty('--samp-clr', `rgb(${txtColor[0]}, ${txtColor[1]}, ${txtColor[2]})`);
 		s.colorMode(s.RGB);
 
-		sample = document.querySelector('#sample span');
+		sampleDiv = document.querySelector('#sample');
 		const switchSize = document.querySelector('#switch-size');
 		switchSize.addEventListener('change', ev => {
 			if ((ev.target.checked)) {
-				sample.classList.remove('normal');
-				sample.classList.add('large');
+				sampleDiv.firstElementChild.classList.remove('normal');
+				sampleDiv.firstElementChild.classList.add('large');
 				crMin = 3;
 			} else {
-				sample.classList.add('normal');
-				sample.classList.remove('large');
+				sampleDiv.firstElementChild.classList.add('normal');
+				sampleDiv.firstElementChild.classList.remove('large');
 				crMin = 4.5;
 			}
 			s.redraw();
@@ -150,6 +150,15 @@ const sketch = (s) => {
 
 		crScore = document.querySelector('#score > span:nth-of-type(2)');
 		crLevel = document.querySelector('#score > span:last-of-type');
+
+		const colorBlindness = document.querySelector('#color-blindness');
+		colorBlindness.selectedIndex = 0;
+		colorBlindness.addEventListener('change', ev => {
+			sampleDiv.classList.remove(...sampleDiv.classList); // vide classList
+			const cb = ev.target.value;
+			if (!cb) return
+			sampleDiv.classList.add(`${cb}`);
+		})
 
 		// pas de loop, l'image n'est créée qu'au besoin par des appels à redraw()
 		// et draw() n'est appelé qu'une fois, au début
