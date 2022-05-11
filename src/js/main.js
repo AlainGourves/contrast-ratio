@@ -354,7 +354,7 @@ const sketch = (s) => {
 
 		// Calcul de la valeur de chaque carré
 		let sample = [];
-		// va stocker  les resultats de la colonne du milieu pour pouvoir définir les zones d'exclusion ensuite
+		// va stocker  les resultats de la colonne 2 pour pouvoir définir les zones d'exclusion ensuite
 		for (let i = 0; i < (100 / reso); i++) {
 			result[i] = []
 			for (let j = 0; j < (100 / reso); j++) {
@@ -536,6 +536,7 @@ const sketch = (s) => {
 		}
 
 		let zones = sample.join('');
+		// console.log(`zones: ${zones}`)
 		// Création d'un cretaGraphics pour dessiner la forme (et s'en servir de masque sur le pattern enssuite)
 		theMask.clear();
 		theMask.noStroke()
@@ -543,7 +544,7 @@ const sketch = (s) => {
 		theMask.beginShape();
 		if (ligne2.length < 1) {
 			// 1 seule ligne
-			if (/^X+[0-9]+0*$/.test(zones)) {
+			if (/^X*[0-9]+0*$/.test(zones)) {
 				// zone à exclure en bas
 				ligne1.forEach(v => theMask.vertex(v.x, v.y));
 				theMask.vertex(100 * sc, 100 * sc);
