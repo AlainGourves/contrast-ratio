@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'mixins';
 @import 'switch';
 @import 'filters';
@@ -14,6 +15,7 @@
   --bg-clr: #fff;
   --samp-bg: hsl(180deg, 50%, 50%);
   --samp-clr: #eeff00;
+  --dark-gray: #545454
 }
 
 html {
@@ -31,8 +33,12 @@ body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
+main {
+  margin-top: 1rem;
+}
 
 #canvas {
+  position: relative;
   background-image:
     repeating-linear-gradient(0deg, #ffffff40 0px, #ffffff40 1px, transparent 1px, transparent 10%),
     repeating-linear-gradient(90deg, #ffffff40 0px, #ffffff40 1px, transparent 1px, transparent 10%),
@@ -126,9 +132,8 @@ body {
     background: #d3d3d3;
     border-bottom-right-radius: .25rem;
     border-bottom-left-radius: .25rem;
-    
   }
-  
+
   & #color-blindness__container,
   & #size {
     position: relative;
@@ -271,7 +276,7 @@ input[type="color"] {
   transition-duration: .125s;
   transition-delay: 2s;
   transition-timing-function: cubic-bezier(0.37, 0.21, 0.72, 1.35);
-  background-color: rgba(0, 0, 0, .75);
+  background-color: var(--dark-gray);
   color: #fff;
   border-top-left-radius: .25em;
   border-top-right-radius: .25em;
@@ -289,15 +294,18 @@ input[type="color"] {
 // Accessibility
 
 [role="tooltip"] {
-  --tooltip-bg: #545454;
   --tooltip-arrow: .5rem;
+  $tt-w: 1rem;
+  $tt-h: math.div(math.sqrt(3), 2) * $tt-w;
+  --tooltip-w: #{$tt-w};
+  --tooltip-h: #{$tt-h};
   display: none;
   position: absolute;
-  width: clamp(9ch, 12vw, 8rem);
+  max-width: clamp(calc(10ch + .5em), 14vw, 10rem);
   padding: .5em;
   font-size: .8rem;
   color: #fff;
-  background: var(--tooltip-bg);
+  background: var(--dark-gray);
   border-radius: .25rem;
   z-index: 666;
   box-shadow:
@@ -306,31 +314,6 @@ input[type="color"] {
     .3em .3em .6em rgba(0, 0, 0, 0.097),
     .5em .5em 1em rgba(0, 0, 0, 0.12);
 
-
-  &.right {
-    right: 0;
-    // transform: translate(calc(100% + 1rem), -50%);
-    transform: translate(calc(100% + 1rem), -50%);
-
-    &::before {
-      left: calc(var(--tooltip-arrow) * -.8);
-      border-color: transparent var(--tooltip-bg) transparent transparent;
-      border-width: var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow) 0;
-    }
-  }
-
-  &.left {
-    left: 0;
-    // transform: translate(-100%, -50%);
-    transform: translate(-100%, -50%);
-    
-    &::before {
-      right: calc(var(--tooltip-arrow) * -.8);
-      border-color: transparent transparent transparent var(--tooltip-bg);
-      border-width: var(--tooltip-arrow) 0 var(--tooltip-arrow) var(--tooltip-arrow);
-    }
-  }
-  
   &.top {
     top: 0;
   }
@@ -342,12 +325,63 @@ input[type="color"] {
   &::before {
     position: absolute;
     content: '';
-    width: 0;
-    height: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    border-style: solid;
+    width: var(--tooltip-w);
+    height: var(--tooltip-h);
+    // top: 50%;
+    // transform: translateY(-50%);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    background: var(--dark-gray);
   }
+
+  &.right {
+    right: 0;
+    transform: translate(calc(100% + 1rem), -50%);
+
+    &::before {
+      left: 0;
+      transform: translate(calc(var(--tooltip-h) * -.8), -50%) rotate(30deg);
+    }
+  }
+
+  &.left {
+    left: 0;
+    transform: translate(-100%, -50%);
+
+    &::before {
+      right: 0;
+      transform: translate(calc(var(--tooltip-h) * .8), -50%) rotate(-30deg);
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    &::before {
+      top: unset;
+      left: 50% !important;
+      transform: translateX(-50%);
+      // background: deeppink !important;
+    }
+
+    &.right {
+      transform: translate(50%, calc((100% + 1rem) * -1));
+
+      &::before {
+        bottom: 0;
+        transform: translate(-50%, calc(var(--tooltip-h) * .7)) rotate(60deg);
+        // background-color: deeppink;
+      }
+    }
+
+    &.left {
+      transform: translate(0%, calc(100% + .5rem));
+
+      &::before {
+        top: calc((var(--tooltip-arrow) * -1) + 1px);
+        // border-color: transparent transparent var(--dark-gray) transparent;
+        // border-width: 0 var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow);
+      }
+    }
+  }
+
 }
 
 button:hover+[role="tooltip"],
@@ -355,6 +389,7 @@ button:focus+[role="tooltip"],
 input:hover+[role="tooltip"],
 input:focus+[role="tooltip"],
 select:hover+[role="tooltip"],
-select:focus+[role="tooltip"] {
+select:focus+[role="tooltip"],
+#canvas:hover>[role="tooltip"] {
   display: block;
 }
