@@ -17,7 +17,7 @@
 			<div class="options">
 				<div id="color-blindness__container">
 					<label for="color-blindness">Color blindness:
-						<select id="color-blindness">
+						<select id="color-blindness" aria-labelledby="colBlindSel">
 							<option value="" selected>None</option>
 							<option value="achromatomaly">Achromatomaly</option>
 							<option value="achromatopsia">Achromatopsia</option>
@@ -28,14 +28,16 @@
 							<option value="tritanomaly">Tritanomaly</option>
 							<option value="tritanopia">Tritanopia</option>
 						</select>
+						<div role="tooltip" id="colBlindSel" class="top left">Select the color blindness to simulate</div>
 					</label>
 				</div>
-
+				
 				<div id="size">
 					Normal text
 					<label for="switch" class="gui-switch">
-						<input type="checkbox" role="switch" id="switch-size" checked>
+						<input type="checkbox" role="switch" id="switch-size" aria-labelledby="txtSizeSel" checked>
 						Large text
+						<div role="tooltip" id="txtSizeSel" class="top right">Select text's size</div>
 					</label>
 				</div>
 			</div>
@@ -43,21 +45,25 @@
 
 		<div id="inputs">
 			<div>
-				<button class="btn-clipboard" title="Copy HEX value to clipboard">
+				<button class="btn-clipboard" aria-labelledby="copyBgColBtn">
 					<svg>
 						<use href="#clipboard" />
 					</svg>
 				</button>
-				<input type="color" id="colorBg" />
+				<div role="tooltip" id="copyBgColBtn" class="top right">Copy HEX value to clipboard</div>
+				<input type="color" id="colorBg" aria-labelledby="pickBgCol" />
+				<div role="tooltip" id="pickBgCol" class="bottom left">Pick background color</div>
 				<label for="colorBg">Bg Color</label>
 			</div>
 			<div>
-				<button class="btn-clipboard" title="Copy HEX value to clipboard">
+				<button class="btn-clipboard" aria-labelledby="copyTxtColBtn">
 					<svg>
 						<use href="#clipboard" />
 					</svg>
 				</button>
-				<input type="color" id="colorTxt" />
+				<div role="tooltip" id="copyTxtColBtn" class="top right">Copy HEX value to clipboard</div>
+				<input type="color" id="colorTxt" aria-labelledby="pickTxtCol" />
+				<div role="tooltip" id="pickBgCol" class="bottom left">Pick text color</div>
 				<label for="colorTxt">Txt Color</label>
 			</div>
 			<div id="score">

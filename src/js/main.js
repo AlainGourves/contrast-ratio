@@ -134,8 +134,8 @@ const sketch = (s) => {
 		s.colorMode(s.RGB);
 
 		sampleDiv = document.querySelector('#sample');
-		const switchSize = document.querySelector('#switch-size');
-		switchSize.addEventListener('change', ev => {
+		const theSizeSwitch = document.querySelector('#switch-size');
+		const switchSize = (ev) => {
 			if ((ev.target.checked)) {
 				sampleDiv.firstElementChild.classList.remove('normal');
 				sampleDiv.firstElementChild.classList.add('large');
@@ -146,7 +146,14 @@ const sketch = (s) => {
 				crMin = 4.5;
 			}
 			s.redraw();
-		});
+		}
+		theSizeSwitch.addEventListener('change', switchSize);
+		theSizeSwitch.addEventListener('keydown', ev => {
+			if (ev.key === 'Enter') {
+				ev.target.checked = !ev.target.checked;
+				switchSize(ev);
+			}
+		})
 
 		crScore = document.querySelector('#score > span:nth-of-type(2)');
 		crLevel = document.querySelector('#score > span:last-of-type');
