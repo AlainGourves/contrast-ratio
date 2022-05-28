@@ -73,25 +73,16 @@ main {
 
     & #score {
       order: -1;
+
+      & span:nth-of-type(2)::after {
+        display: block;
+        text-align: center;
+      }
     }
   }
 
 }
 
-#score {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  place-content: center;
-
-  & p {
-    position: relative;
-    padding: .5em;
-
-    &::after {
-      padding-left: .25em;
-    }
-  }
-}
 
 #sample {
   display: flex;
@@ -158,6 +149,7 @@ main {
 #inputs {
   display: grid;
   grid-template-columns: repeat(2, 6rem) 1fr;
+  gap: .25rem;
 
   & div:not([role="tooltip"]) {
     display: flex;
@@ -184,6 +176,7 @@ main {
     font-size: 1.5rem;
 
     &::after {
+      display: inline;
       margin-right: .25rem;
     }
 

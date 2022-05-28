@@ -115,7 +115,7 @@ const sketch = (s) => {
 
 		cnv.mousePressed(s.updateBgColor);
 
-		colorPickerBg.addEventListener('input', s.changeBgColor);
+		colorPickerBg.addEventListener('input', s.throttle((ev) => s.changeBgColor(ev), 100));
 		colorPickerBg.addEventListener('change', ev => {
 			// Stocke la valeur en localStorage
 			localStorage.setItem('bgColor', ev.target.value);
@@ -123,7 +123,7 @@ const sketch = (s) => {
 
 		let clr = localStorage.getItem('txtColor');
 		colorPickerTxt.value = (clr && /^\#[0-9a-f]{6}$/i.test(clr)) ? clr : '#eeff00';
-		colorPickerTxt.addEventListener('input', s.changeTxtColor);
+		colorPickerTxt.addEventListener('input', s.throttle(() => s.changeTxtColor(), 100));
 		colorPickerTxt.addEventListener('change', ev => {
 			// Stocke la valeur en localStorage
 			localStorage.setItem('txtColor', ev.target.value);
@@ -213,6 +213,22 @@ const sketch = (s) => {
 		s.image(colorGradient, ml, mt);
 		s.traceZone();
 		s.drawColorCircle();
+	}
+
+	// Fonction pour limiter le nombre d'appels à changeBgColor() ou changeTextColor()
+	// limité à un appel toutes les 100ms
+	// cf. https://redd.one/blog/debounce-vs-throttle
+	s.throttle = (callback, duration) => {
+		let shouldWait = false;
+		return (...args) => {
+			if (shouldWait) return;
+			callback.apply(null, args);
+			shouldWait = true;
+
+			setTimeout(() => {
+				shouldWait = false;
+			}, duration);
+		}
 	}
 
 	s.changeTxtColor = () => {
