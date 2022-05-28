@@ -96,7 +96,7 @@ const sketch = (s) => {
 		legend.text('Lightness', 0, 0);
 		legend.pop();
 
-		// Création de l'image de fond en fonction de la couleur 
+		// Création de l'image de fond en fonction de la couleur
 		let clrHex = localStorage.getItem('bgColor');
 		if (clrHex && /^\#[0-9a-f]{6}$/i.test(clrHex)) {
 			let clr = s.color(clrHex);
@@ -256,7 +256,7 @@ const sketch = (s) => {
 	}
 
 	s.createColorGradient = () => {
-		// Création de l'image de fond en fonction de la couleur 
+		// Création de l'image de fond en fonction de la couleur
 		colorGradient.clear();
 		img = s.createImage(100, 100);
 		img.loadPixels();

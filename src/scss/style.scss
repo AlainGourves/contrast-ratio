@@ -223,8 +223,7 @@ input[type="color"] {
   padding: 0;
   margin-top: .5rem;
   border-radius: 50%;
-  border-width: 2px;
-  border-style: solid;
+  border: 2px solid #b9bfc6;
   cursor: pointer;
 
   &::-webkit-color-swatch-wrapper {
@@ -269,7 +268,7 @@ select {
   padding: .25rem 2rem .25rem .5rem;
   font-weight: 400;
   line-height: 1.5;
-  border: 1px solid #ced4da;
+  border: 1px solid #b9bfc6;
   border-radius: 0.25rem;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
   background-size: 16px 12px;
