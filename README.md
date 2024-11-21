@@ -22,7 +22,7 @@ npm install
 And then:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ## Libraries
