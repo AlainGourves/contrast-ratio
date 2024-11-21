@@ -1,32 +1,18 @@
 {
-  "name": "project",
-  "version": "0.1.0",
-  "description": "SASS compile|autoprefix|minimize and live-reload dev server using Browsersync for static HTML",
-  "main": "public/index.html",
+  "name": "contrast-ratio-checker",
+  "version": "0.2.0",
+  "type": "module",
   "author": "AlainGourves",
   "scripts": {
-    "build:sass": "sass  --no-source-map src/scss:public/css",
-    "copy:html": "copyfiles -u 1 ./src/*.html public",
-    "copy:js": "copyfiles -u 1 './src/js/**/*.js' public",
-    "copy": "npm-run-all --parallel copy:*",
-    "watch:html": "onchange 'src/*.html' -- npm run copy:html",
-    "watch:js": "onchange 'src/js/*' -- npm run copy:js",
-    "watch:sass": "sass  --no-source-map --watch src/scss:public/css",
-    "watch": "npm-run-all --parallel watch:*",
-    "serve": "browser-sync start --server public --files public --browser '/Applications/Firefox Developer Edition.app' --no-ghost-mode",
-    "start": "npm-run-all copy --parallel watch serve",
-    "build": "npm-run-all copy:html build:*",
-    "postbuild": "postcss public/css/*.css -u autoprefixer cssnano -r --no-map"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.10",
+    "sass": "^1.81.0"
   },
   "dependencies": {
-    "autoprefixer": "^10.4.19",
-    "browser-sync": "^3",
-    "copyfiles": "^2.4.1",
-    "cssnano": "^5.1.15",
-    "npm-run-all": "^4.1.5",
-    "onchange": "^7.1.0",
-    "p5": "^1.9.4",
-    "postcss-cli": "^9.1.0",
-    "sass": "^1.77.2"
+    "p5": "^1.11.1"
   }
 }
